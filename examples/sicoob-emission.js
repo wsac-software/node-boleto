@@ -4,6 +4,7 @@ var path = require('path')
 var app = express()
 
 var Boleto = require('../index').Boleto
+Boleto.barcodeRenderEngine = 'bmp'
 
 var boleto = new Boleto({
   'banco': 'sicoob',
@@ -16,13 +17,13 @@ var boleto = new Boleto({
   'cedente_cnpj': '18727053000174',
   'agencia': '1229',
   'codigo_cedente': '469',
-  'carteira': '25',
+  'carteira': '1',
+  'parcela': 1,
+  'modalidade': '01',
   'pagador': 'Nome do pagador\nCPF: 000.000.000-00',
   'local_de_pagamento': 'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO.',
   'instrucoes': 'Sr. Caixa, aceitar o pagamento e não cobrar juros após o vencimento.'
 })
-
-// console.log(boleto['linha_digitavel'])
 
 app.use(express.static(path.join(__dirname, '/../')))
 
