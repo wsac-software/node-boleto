@@ -23,7 +23,14 @@ exports.barcodeData = function (boleto) {
 
   var valor = formatters.addTrailingZeros(boleto['valor'], 10)
   var carteira = boleto['carteira']
-  var codigoCedente = formatters.addTrailingZeros(boleto['codigo_cedente'], 7)
+
+  var codigoCedenteWithDv = boleto['codigo_cedente']
+
+  if (boleto['codigo_cedente_dv']) {
+    codigoCedenteWithDv += '' + boleto['codigo_cedente_dv']
+  }
+
+  var codigoCedente = formatters.addTrailingZeros(codigoCedenteWithDv, 7)
 
   var campoLivre = carteira + agencia + formatters.addTrailingZeros(boleto['modalidade'], 2) + codigoCedente + formatters.addTrailingZeros(boleto['nosso_numero'], 8) + formatters.addTrailingZeros(boleto['parcela'], 3)
 

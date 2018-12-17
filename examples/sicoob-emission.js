@@ -17,6 +17,7 @@ var boleto = new Boleto({
   'cedente_cnpj': '18727053000174',
   'agencia': '1229',
   'codigo_cedente': '469',
+  'codigo_cedente_dv': '4',
   'carteira': '1',
   'parcela': 1,
   'modalidade': '01',
