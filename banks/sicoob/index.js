@@ -32,7 +32,9 @@ exports.barcodeData = function (boleto) {
 
   var codigoCedente = formatters.addTrailingZeros(codigoCedenteWithDv, 7)
 
-  var campoLivre = carteira + agencia + formatters.addTrailingZeros(boleto['modalidade'], 2) + codigoCedente + formatters.addTrailingZeros(boleto['nosso_numero'], 8) + formatters.addTrailingZeros(boleto['parcela'], 3)
+  var nossoNumeroDv = formatters.mod11Sicoob(boleto['nosso_numero'], boleto['agencia'], codigoCedenteWithDv)
+
+  var campoLivre = carteira + agencia + formatters.addTrailingZeros(boleto['modalidade'], 2) + codigoCedente + formatters.addTrailingZeros(boleto['nosso_numero'] + '' + nossoNumeroDv, 8) + formatters.addTrailingZeros(boleto['parcela'], 3)
 
   var barra = codigoBanco + numMoeda + fatorVencimento + valor + campoLivre
 

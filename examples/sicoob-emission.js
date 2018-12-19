@@ -11,7 +11,7 @@ var boleto = new Boleto({
   'data_emissao': new Date(),
   'data_vencimento': new Date(new Date().getTime() + 5 * 24 * 3600 * 1000),
   'valor': 1500,
-  'nosso_numero': '6',
+  'nosso_numero': '661',
   'numero_documento': '1',
   'cedente': 'Pagar.me Pagamentos S/A',
   'cedente_cnpj': '18727053000174',
