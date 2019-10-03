@@ -4,8 +4,9 @@ const formatters = require('../../lib/formatters')
 const helper = require('./helper')
 
 exports.options = {
-  logoURL: 'data:image/png;base64,' + helper.encodeBase64('sicoob.png'),
-  codigo: '756'
+  logoURL: 'data:image/jpg;base64,' + helper.encodeBase64('caixa.jpg'),
+  codigo: '756',
+  layout: 'layout-caixasigcb'
 }
 
 exports.dvBarra = function (barra) {
@@ -22,7 +23,6 @@ exports.barcodeData = function (boleto) {
   var agencia = formatters.addTrailingZeros(boleto['agencia'], 4)
 
   var valor = formatters.addTrailingZeros(boleto['valor'], 10)
-  var carteira = boleto['carteira']
 
   var codigoCedenteWithDv = boleto['codigo_cedente']
 
@@ -34,7 +34,7 @@ exports.barcodeData = function (boleto) {
 
   var nossoNumeroDv = formatters.mod11Sicoob(boleto['nosso_numero'], boleto['agencia'], codigoCedenteWithDv)
 
-  var campoLivre = carteira + agencia + formatters.addTrailingZeros(boleto['modalidade'], 2) + codigoCedente + formatters.addTrailingZeros(boleto['nosso_numero'] + '' + nossoNumeroDv, 8) + formatters.addTrailingZeros(boleto['parcela'], 3)
+  var campoLivre = 1 + agencia + formatters.addTrailingZeros(boleto['modalidade'], 2) + codigoCedente + formatters.addTrailingZeros(boleto['nosso_numero'] + '' + nossoNumeroDv, 8) + formatters.addTrailingZeros(boleto['parcela'], 3)
 
   var barra = codigoBanco + numMoeda + fatorVencimento + valor + campoLivre
 
