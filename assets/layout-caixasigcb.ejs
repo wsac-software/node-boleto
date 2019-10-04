@@ -402,7 +402,7 @@
                     </td>
                     <td class="cp" valign="top" width="120" height="12">
                         <span class="campo">
-                            <%= addTrailingZeros(boleto['nosso_numero'], 12) %>-<%= boleto['nosso_numero_dv'] %>
+                            <%= addTrailingZeros(boleto['nosso_numero'], 15) %>-<%= boleto['nosso_numero_dv'] %>
                         </span>
                     </td>
                 </tr>
@@ -427,7 +427,7 @@
                     <td width="7"></td>
                     <td class="cp" width="564">
                         <span class="campo">
-                            <%= boleto['instrucoes'] %>
+                            <%- boleto['instrucoes'] %>
                         </span>
                     </td>
                     <td width="7"></td>
@@ -437,7 +437,7 @@
                     <td width="7"></td>
                     <td class="cp" width="564">
                         <span class="campo">
-                                <%= boleto['instrucoes2'] %>
+                            <%- boleto['instrucoes2'] %>
                         </span>
                     </td>
                     <td width="7"></td>
@@ -447,7 +447,7 @@
                     <td width="7"></td>
                     <td class="cp" width="564">
                         <span class="campo">
-                            <%= boleto['instrucoes3'] %>
+                            <%- boleto['instrucoes3'] %>
                         </span>
                     </td>
                     <td width="7"></td>
@@ -871,7 +871,7 @@
                     </td>
                     <td class="cp" valign="top" align="right" width="180" height="12">
                         <span class="campo">
-                                <%= addTrailingZeros(boleto['nosso_numero'], 12) %>-<%= boleto['nosso_numero_dv'] %>
+                            <%= addTrailingZeros(boleto['nosso_numero'], 15) %>-<%= boleto['nosso_numero_dv'] %>
                         </span>
                     </td>
                 </tr>
@@ -1002,10 +1002,9 @@
                     </td>
                     <td valign="top" width="468" rowspan="5"><font class="ct">Instruções
                         (Texto de responsabilidade do Beneficiário)</font><br><br><span class="cp"> <FONT class=campo>
-                            <?= $instrucoes[0]; ?><br>
-                            <?= $instrucoes[1]; ?><br>
-                            <?= $instrucoes[2]; ?><br>
-                            <?= $instrucoes[3]; ?></FONT><br><br>
+                            <%- boleto['descricao'] || '' %><br>
+                            <%- boleto['descricao2'] || '' %><br>
+                            <%- boleto['descricao3'] || '' %></FONT><br><br>
                         </span>
                     </td>
                     <td align="right" width="188">

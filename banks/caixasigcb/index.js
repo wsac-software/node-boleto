@@ -5,63 +5,68 @@ const helper = require('./helper')
 
 exports.options = {
   logoURL: 'data:image/jpg;base64,' + helper.encodeBase64('caixa.jpg'),
-  codigo: '756',
+  codigo: '104',
   layout: 'layout-caixasigcb'
 }
 
 exports.dvBarra = function (barra) {
-  var resto2 = formatters.mod11(barra, 9, 1)
-  return (resto2 == 0 || resto2 == 1 || resto2 == 10) ? 1 : 11 - resto2
+  var resto2 = formatters.mod11(barra)
+  return (resto2 === 0 || resto2 > 9) ? 1 : 11 - resto2
+}
+
+exports.dvCampoLivre = function (barra) {
+  var resto2 = formatters.mod11(barra)
+  return (resto2 > 9) ? 0 : 11 - resto2
 }
 
 exports.barcodeData = function (boleto) {
-  var codigoBanco = this.options.codigo
-  var numMoeda = '9'
+  boleto['nosso_numero'] = `14${formatters.addTrailingZeros(boleto['nosso_numero'], 15)}`;
 
-  var fatorVencimento = formatters.fatorVencimento(moment(boleto['data_vencimento']).utc().format())
+  const codigoBanco = this.options.codigo
+  const numMoeda = '9'
+  const fatorVencimento = formatters.fatorVencimento(moment(boleto['data_vencimento']).utc().format())
+  const valor = formatters.addTrailingZeros(boleto['valor'], 10)
 
-  var agencia = formatters.addTrailingZeros(boleto['agencia'], 4)
-
-  var valor = formatters.addTrailingZeros(boleto['valor'], 10)
-
-  var codigoCedenteWithDv = boleto['codigo_cedente']
-
+  let campoLivre = ''
+  let codigoCedenteWithDv = boleto['codigo_cedente']
   if (boleto['codigo_cedente_dv']) {
     codigoCedenteWithDv += '' + boleto['codigo_cedente_dv']
   }
 
-  var codigoCedente = formatters.addTrailingZeros(codigoCedenteWithDv, 7)
+  const codigoCedente = formatters.addTrailingZeros(codigoCedenteWithDv, 7)
+  campoLivre = `${boleto['nosso_numero'].substr(2, 3)}${boleto['nosso_numero'].substr(0, 1)}`;
+  campoLivre += `${boleto['nosso_numero'].substr(5, 2)}${boleto['nosso_numero'].substr(1, 1)}`;
+  campoLivre += `${boleto['nosso_numero'].substr(8, 8)}`;
+  campoLivre += this.dvCampoLivre(campoLivre);
 
-  var nossoNumeroDv = formatters.mod11Sicoob(boleto['nosso_numero'], boleto['agencia'], codigoCedenteWithDv)
+  const barra = codigoBanco + numMoeda + fatorVencimento + valor + codigoCedente + campoLivre
 
-  var campoLivre = 1 + agencia + formatters.addTrailingZeros(boleto['modalidade'], 2) + codigoCedente + formatters.addTrailingZeros(boleto['nosso_numero'] + '' + nossoNumeroDv, 8) + formatters.addTrailingZeros(boleto['parcela'], 3)
-
-  var barra = codigoBanco + numMoeda + fatorVencimento + valor + campoLivre
-
-  var dvBarra = this.dvBarra(barra)
-  var lineData = barra.substring(0, 4) + dvBarra + barra.substring(4, barra.length)
+  const dvBarra = this.dvBarra(barra)
+  const lineData = barra.substring(0, 4) + dvBarra + barra.substring(4, barra.length)
 
   return lineData
 }
 
 exports.linhaDigitavel = function (barcodeData) {
-  // 01-03    -> Código do banco sem o digito
-  // 04-04    -> Código da Moeda (9-Real)
-  // 05-05    -> Dígito verificador do código de barras
-  // 06-09    -> Fator de vencimento
-  // 10-19    -> Valor Nominal do Título
-  // 20-20    -> Código da carteira
-  // 21-24    -> Código da Agencia (sem dígito)
-  // 25-26    -> Modalidade de cobrança (campo livre)
-  // 27-33    -> Código de cedente (campo livre)
-  // 34-41    -> Nosso número do titulo (campo livre)
-  // 42-44    -> Número de parcela do titulo (campo livre)
+  // 01-03    -> Código do banco sem o digito (1-3 do cód. barras)
+  // 04-04    -> Código da Moeda (9-Real) (4-4 do cód. barras)
+  // 05-09    -> Cinco primeiras posições do campo livre (20-24 do cód. barras)
+  // 09-10    -> Dígito verificador dos números acima
+  // 11-20    -> Posições 16 a 25 do campo livre (posições 35 a 44 do código de barras)
+  // 21-21    -> Dígito verificador dos números acima (11-21)
+  // 23-32    -> Composto pelas posições 16 a 25 do campo livre (posições 35 a 44 do código de barras)
+  // 33-33    -> Dígito verificador dos números acima (23-33)
+  // 34-34    -> DV geral do código de barras (posição 5 do código de barras);
+  // 34-37    -> Fator de vencimento (posições 6 a 9 do código de barras)
+  // 38-47    -> Nosso número do titulo (campo livre)
 
   var campos = []
 
   // 1. Campo - composto pelo código do banco, código da moéda, código da carteira e código da agencia
   // e DV (modulo10) deste campo
-  var campo = barcodeData.substring(0, 3) + barcodeData.substring(3, 4) + barcodeData.substring(19, 20) + barcodeData.substring(20, 24)
+  var campo = barcodeData.substring(0, 3) +
+    barcodeData.substring(3, 4) +
+    barcodeData.substring(19, 24)
   campo = campo + formatters.mod10(campo)
   campo = campo.substring(0, 5) + '.' + campo.substring(5, campo.length)
   campos.push(campo)

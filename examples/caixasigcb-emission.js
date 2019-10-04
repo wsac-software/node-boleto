@@ -22,7 +22,6 @@ var boleto = new Boleto({
   'codigo_cedente': '469',
   'codigo_cedente_dv': '4',
   'carteira': 'RG',
-  'parcela': 1,
   'modalidade': '01',
   'pagador': 'Nome do pagador',
   'pagador_documento': '017.563.902.74',
@@ -30,7 +29,8 @@ var boleto = new Boleto({
   'pagador_uf': 'GO',
   'pagador_cep': '74620999',
   'local_de_pagamento': 'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO.',
-  'instrucoes': 'Sr. Caixa, aceitar o pagamento e não cobrar juros após o vencimento.'
+  'instrucoes': 'Sr. Caixa, aceitar o pagamento e não cobrar juros após o vencimento.',
+  'descricao': 'Descrição 01 <br /> Descrição 02',
 })
 
 app.use(express.static(path.join(__dirname, '/../')))
