@@ -1,0 +1,1309 @@
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'>
+<html>
+    <head>
+        <title>Visualização de boleto</title>
+        <meta http-equiv=Content-Type content=text/html charset=utf-8>
+        <style type=text/css>
+            .cp {  font: bold 10px Arial; color: black}
+            .ti {  font: 9px Arial, Helvetica, sans-serif}
+            .ld { font: bold 15px Arial; color: #000000}
+            .ct { font: 8.5px "Arial"; color: #000000}
+            .cn { font: 9px Arial; COLOR: black }
+            .bc { font: bold 20px Arial; color: #000000 }
+            .ld2 { font: bold 12px Arial; color: #000000 }
+            .cut{width:665px;height:1px;border-top:dashed 1px #000}
+            .Ac{text-align:center}
+            .Ar{text-align:right}
+            .Al{text-align:left}
+            .At{vertical-align:top}
+            .Ab{vertical-align:bottom}
+            .ct td, .cp td{padding-left:6px;border-left:solid 1px #000}
+            .cpN{font:bold 10px arial;color:black}
+            .ctN{font:9px "arial narrow";color:#000033}
+            .pL0{padding-left:0px}
+            .pL6{padding-left:6px}
+            .pL10{padding-left:10px}
+            .imgLogo{width:150px}
+            .imgLogo img{width:150px;height:40px}
+            .barra{width:2px;height:15px;;background-color:#000;}
+            .rBb td{border-bottom:solid 1px #000}
+            .BB{border-bottom:solid 1px #000}
+            .BL{border-left:solid 1px #000}
+            .BR{border-right:solid 1px #000}
+            .BT1{border-top:dashed 1px #000}
+            .BT2{border-top:solid 2px #000}
+            .h1{height:1px}
+            .h13{height:13px}
+            .h12{height:12px}
+            .h13 td{vertical-align:top}
+            .h12 td{vertical-align:top}
+            .h16{height:16px}
+            .h22{height:22px}
+            .h30{height:30px}
+            .w6{width:6px}
+            .w7{width:7px;}
+            .w34{width:34px}
+            .w45{width:45px}
+            .w53{width:53px}
+            .w62{width:62px}
+            .w65{width:65px}
+            .w72{width:72px}
+            .w83{width:83px}
+            .w88{width:88px}
+            .w104{width:104px}
+            .w105{width:105px}
+            .w106{width:106px}
+            .w113{width:113px}
+            .w112{width:112px}
+            .w120{width:120px}
+            .w123{width:123px}
+            .w126{width:126px}
+            .w128{width:128px}
+            .w132{width:132px}
+            .w134{width:134px}
+            .w150{width:150px}
+            .w154{width:154px}
+            .w156{width:156px}
+            .w163{width:163px}
+            .w164{width:164px}
+            .w180{width:180px}
+            .w182{width:182px}
+            .w186{width:186px}
+            .w187{width:187px}
+            .w192{width:192px}
+            .w250{width:250px}
+            .w298{width:298px}
+            .w368{width:368px}
+            .w409{width:409px}
+            .w472{width:472px}
+            .w478{width:478px}
+            .w490{width:490px}
+            .w500{width:500px}
+            .w544{width:544px}
+            .w564{width:564px}
+            .w659{width:659px}
+            .w666{width:666px}
+            .w667{width:667px}
+            
+            .BHead td{border-bottom:solid 2px #000}
+            .EcdBar{height:50px;vertical-align:bottom}
+            .rc6 td{vertical-align:top;border-bottom:solid 1px #000;border-left:solid 1px #000}
+            .rc6 div{padding-left:6px}
+            .rc6 .t{font:9px "arial narrow";color:#000033;height:13px}
+            .rc6 .c{font:bold 10px arial;color:black;height:12px}
+            .mt23{margin-top:23px;}
+            .pb4{padding-bottom:14px;}
+            .ebc{width:4px;height:440px;border-right:dotted 1px #000000;margin-right:4px;}
+            <% if (barcode_render_engine == 'bmp') { %>
+                .barcode {
+                    background-image: url(data:image/bmp;base64,<%= barcode_data %>);
+                    background-repeat: repeat-y;
+                    height: <%= barcode_height %>px;
+                }
+            <% } else if (barcode_render_engine == 'img') { %>
+                .barcode {
+                height: <%= barcode_height %>px;
+                }
+
+                .barcode-line {
+                height: inherit;
+                display: inline-block;
+                float: left;
+                }
+            <% } %>
+            @media print
+            {
+                * {-webkit-print-color-adjust:exact;}
+                .no-print, .no-print *
+                {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
+    <body text="#000000" bgColor="#ffffff" topMargin="0" rightMargin="0" >
+        <table width="666" cellspacing="0" cellpadding="0" border="0" >
+            <tr>
+                <td valign="top" class="cp">
+                    <div align="center">
+                        Instruções de Impressão
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" class="cp">
+                    <div align="left">
+                        <p>
+                        <li>
+                            Imprima em impressora jato de tinta (ink jet) ou laser em qualidade normal ou alta (Não use modo econômico).
+                        </li>
+                        <li>
+                            Utilize folha A4 (210 x 297 mm) ou Carta (216 x 279 mm) e margens mínimas à esquerda e à direita do formulário.
+                        </li>
+                        <li>
+                            Corte na linha indicada. Não rasure, risque, fure ou dobre a região onde se encontra o código de barras.
+                        </li>
+                        <li>
+                            Caso não apareça o código de barras no final, clique em F5 para atualizar esta tela.
+                        </li>
+                        <li>
+                            Caso tenha problemas ao imprimir, copie a sequencia numérica abaixo e pague no caixa eletrônico ou no internet banking:
+                        </li>
+                        </p>
+                        <br />
+                        <span class="ld2">
+                            &nbsp;&nbsp;&nbsp;&nbsp;Linha Digitável: &nbsp;<%= boleto['linha_digitavel'] %>
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;Valor: &nbsp;&nbsp;<%= formatAmount(boleto['valor']) %>
+                            <br>
+                        </span>
+                        <br />
+                        <form>
+                            <input class="no-print" type="button" value="Clique aqui para imprimir" onclick="window.print();return false;" />
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" width="666">
+                        <div class="cut"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ct" width="666">
+                        <div align="right">
+                            <b class="cp">
+                                Recibo do Sacado
+                            </b>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="666" cellspacing="5" cellpadding="0" border="0">
+            <tr>
+                <td width="41"></td>
+            </tr>
+        </table>
+
+        <br />
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tr>
+                <td class="cp" width="150">
+                    <span class="campo">
+                        <img src="<%= logoURL %>" width="130" height="30" border="0" />
+                    </span>
+                </td>
+                <td width="3" valign="bottom">
+                    <div class="BL h22"></div>
+                </td>
+                <td class="cpt" width="68" valign="bottom">
+                    <div align="center">
+                        <font class="bc">
+                            <%= boleto['codigo_banco'] %>
+                        </font>
+                    </div>
+                </td>
+                <td width="3" valign="bottom">
+                    <div class="BL h22"></div>
+                </td>
+                <td class="ld" align="right" width="453" valign="bottom">
+                    <span class="ld">
+                        <span class="campotitulo">
+                            <%= boleto['linha_digitavel'] %>
+                        </span>
+                    </span>
+                </td>
+            </tr>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="368" height="13">
+                        Beneficiário
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="136" height="13">
+                        CPF/CNPJ
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="134" height="13">
+                        Agência / Código do Beneficiário
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="368" height="12">
+                        <span class="campo">
+                            <%= boleto['cedente'] %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="156" height="12">
+                        <span class="campo">
+                            <%= boleto['cedente_cnpj'] %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>    
+                    </td>
+                    <td class="cp" valign="top"  width="134" height="12">
+                        <span class="campo">
+                            <%= boleto['agencia'] %>/<%= boleto['codigo_cedente'] %>
+                            <% if (boleto['codigo_cedente_dv']) { %>
+                                - <%= boleto['codigo_cedente_dv'] %>
+                            <% } %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" width="666" height="1" colspan="6">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="480" height="13">Endereço do Beneficiário</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>    
+                    </td>
+                    <td class="ct" valign="top" width="36" height="13">UF</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="117" height="13">CEP</td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="480" height="12">
+                        <span class="campo">
+                            <%= boleto['cedente_endereco'] %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>    
+                    </td>
+                    <td class="cp" valign="top" width="36" height="12">
+                        <span class="campo">
+                            <%= boleto['cedente_uf'] %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>    
+                    </td>
+                    <td class="cp" valign="top"  width="117" height="12">
+                        <span class="campo">
+                            <%= boleto['cedente_cep'] %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" width="666" height="1" colspan="6">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="90" height="13">
+                        Data do documento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="132" height="13">Nr. do documento</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="134" height="13">Aceite</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="154" height="13">
+                        Data de processamento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="120" height="13">
+                        Nosso Número
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>   
+                    </td>
+                    <td class="cp" valign="top" width="90" height="12">
+                        <span class="campo">
+                            <%= formatDate(boleto['data_emissao']) %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>   
+                    </td>
+                    <td class="cp" valign="top" width="132" height="12">
+                        <span class="campo">
+                            <%= addTrailingZeros(boleto['numero_documento'], 9) %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>   
+                    </td>
+                    <td class="cp" valign="top" width="134" height="12">
+                        <span class="campo">
+                            <%= boleto['aceite'] || 'N' %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>   
+                    </td>
+                    <td class="cp" valign="top" width="154" height="12">
+                        <span class="campo">
+                            <%= formatDate(boleto['data_emissao']) %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>   
+                    </td>
+                    <td class="cp" valign="top" width="120" height="12">
+                        <span class="campo">
+                            <%= addTrailingZeros(boleto['nosso_numero'], 15) %>-<%= boleto['nosso_numero_dv'] %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" width="666" height="1" colspan="10">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table cellspacing="0" cellpadding="0" border="0" height="200">
+            <tbody >
+                <tr>
+                    <td class="ct" width="7" height="12"></td>
+                    <td class="ct" width="564" ><strong>Instruções (Texto de Responsabilidade do Beneficiário):</strong></td>
+                    <td class="ct" width="7" height="12"></td>
+                    <td class="ct" width="88" >
+                    </td>
+                </tr>
+                <tr height="20">
+                    <td width="7"></td>
+                    <td class="cp" width="564">
+                        <span class="campo">
+                            <%- boleto['instrucoes'] %>
+                        </span>
+                    </td>
+                    <td width="7"></td>
+                    <td width="88"></td>
+                </tr>
+                <tr height="20">
+                    <td width="7"></td>
+                    <td class="cp" width="564">
+                        <span class="campo">
+                            <%- boleto['instrucoes2'] %>
+                        </span>
+                    </td>
+                    <td width="7"></td>
+                    <td width="88"></td>
+                </tr>
+                <tr height="20">
+                    <td width="7"></td>
+                    <td class="cp" width="564">
+                        <span class="campo">
+                            <%- boleto['instrucoes3'] %>
+                        </span>
+                    </td>
+                    <td width="7"></td>
+                    <td width="88"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- AQUI NOVOS -->
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="490" height="13">Pagador: </td>
+                    <td class="ct" valign="top" width="43" height="13">CPF/CNPJ: </td>
+                    <td class="ct" valign="top" width="127" height="13">
+                        <strong><%= boleto['pagador_documento'] %></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="490" height="12">
+                        <span class="campo"><%= boleto['pagador'] %></span>
+                    </td>
+                    <td class="ct" valign="top" width="43" height="12">
+                        <span class="campo">
+                            UF: <strong><%= boleto['pagador_uf'] %></strong>
+                        </span>
+                    </td>
+                    <td class="ct" valign="top"  width="127" height="12">
+                        <span class="campo">
+                            CEP: <strong><%= boleto['pagador_cep'] %></strong>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>    
+                    </td>
+                    <td class="ct" valign="top" width="80" height="13">
+                        Carteira
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="102" height="13">Espécie</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="144" height="13">Vencimento</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="164" height="13">
+                        Valor do Documento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="140" height="13">
+                        Valor Cobrado
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="16">
+                        <div class="BL h16"></div>
+                    </td>
+                    <td class="cp" valign="top" width="80" height="16">
+                        <span class="campo">
+                            <%= boleto['carteira'] || 'R' %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="16">
+                        <div class="BL h16"></div>
+                    </td>
+                    <td class="cp" valign="top" width="102" height="16">
+                        <span class="campo">
+                            <%= boleto['especie'] || 'DM' %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="16">
+                        <div class="BL h16"></div>
+                    </td>
+                    <td class="cp" valign="top" width="144" height="16">
+                        <span class="campo">
+                            <%= formatDate(boleto['data_vencimento']) %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="16">
+                        <div class="BL h16"></div>
+                    </td>
+                    <td class="cp" valign="top" width="164" height="16">
+                        <span class="campo">
+                            <%= formatAmount(boleto['valor']) %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="16">
+                        <div class="BL h16"></div>
+                    </td>
+                    <td class="cp" valign="top" width="140" height="16">
+                        <span class="campo">
+                        
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellpadding="2" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="400" align="center" style="font: normal 10px Arial;">
+                        <strong class="campo" align="center">
+                            SAC CAIXA:
+                        </strong>
+                        0800 726 0101 (informações, reclamações, sugestões e elogios)
+                    </td>
+                    <td width="266" align="center" style="font: normal 10px Arial;">
+                        Autenticação Mecânica - <strong>Recibo do Pagador</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="400" align="center" style="font: normal 10px Arial;" >
+                        <strong class="campo" align="center" >
+                            Para pessoas com deficiência auditiva ou de fala:
+                        </strong>
+                        0800 726 2492
+                    </td>
+                    <td class="cp" width="266">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="400"  align="center" style="font: normal 10px Arial;">
+                        <strong class="campo" align="center">
+                            Ouvidoria:
+                        </strong>
+                        0800 725 7474
+                    </td>
+                    <td class="cp" width="266">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" width="400"  align="center">
+                        <span class="campo" style="color: blue;">
+                            caixa.gov.br
+                        </span>
+                    </td>
+                    <td class="cp" width="266">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- INICIO LINHA PONTILHADA -->
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tbody>
+                <tr>
+                    <td width="7"></td>
+                    <td  width="500" class="cp">
+                    </td>
+                    <td width="159"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tr>
+                <td class="ct" width="666"></td>
+            </tr>
+            <tbody>
+                <tr>
+                    <td class="ct" width="666">
+                        <div align="right">Corte na linha pontilhada</div>
+                    </td>
+                </tr>
+                <tr> 
+                    <td class="ct" width="666">
+                        <div class="cut w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tr>
+                <td class="cp" width="150">
+                    <span class="campo">
+                        <img src="<%= logoURL %>" 
+                            width="150" height="40"
+                            border="0"
+                        />
+                    </span>
+                </td>
+                <td width="3" valign="bottom">
+                    <div class="BL h22"></div>
+                </td>
+                <td class="cpt" width="58" valign="bottom">
+                    <div align="center">
+                        <font class="bc">
+                            <%= boleto['codigo_banco'] %>
+                        </font>
+                    </div>
+                </td>
+                <td width="3" valign="bottom">
+                    <div class="BL h22"></div>
+                </td>
+                <td class="ld" align="right" width="453" valign="bottom">
+                    <span class="ld">
+                        <span class="campotitulo">
+                            <%= boleto['linha_digitavel'] %>
+                        </span>
+                    </span>
+                </td>
+            </tr>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="472" height="13">Local
+                        de pagamento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="180" height="13">Vencimento</td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="472" height="12">
+                        PREFERENCIALMENTE NAS CASAS LOTÉRICAS ATÉ O VALOR LIMITE
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" align="right" width="180" height="12">
+                        <span class="campo">
+                            <%= formatDate(boleto['data_vencimento']) %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="472" height="13">Beneficiário: </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="180" height="13">Agência/Código
+                        do Beneficiário
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="472" height="12">
+                        <span class="campo">
+                            <%= boleto['cedente'] %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" align="right" width="180" height="12">
+                        <span class="campo">
+                            <%= boleto['agencia'] %>/<%= boleto['codigo_cedente'] %>
+                            <% if (boleto['codigo_cedente_dv']) { %>
+                                - <%= boleto['codigo_cedente_dv'] %>
+                            <% } %></td>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="113" height="13">Data
+                        do documento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13"> 
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="133" height="13">Nr. do
+                        documento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13"> 
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="62" height="13">Espécie
+                        DOC
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13"> 
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="34" height="13">Aceite</td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="102" height="13">Data de
+                        processamento
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13"> 
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="180" height="13">Nosso
+                        número
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="113" height="12">
+                        <div align="left">
+                            <span class="campo">
+                                <%= formatDate(boleto['data_emissao']) %>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="133" height="12">
+                        <span class="campo">
+                            <%= addTrailingZeros(boleto['numero_documento'], 9) %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="62" height="12">
+                        <div align="left"><span class="campo">
+                            <%= boleto['especie'] || 'DM' %>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="34" height="12">
+                        <div align="left">
+                            <span class="campo">
+                                <%= boleto['aceite'] || 'N' %>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="102" height="12">
+                        <div align="left">
+                            <span class="campo">
+                                <%= formatDate(boleto['data_emissao']) %>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" align="right" width="180" height="12">
+                        <span class="campo">
+                            <%= addTrailingZeros(boleto['nosso_numero'], 15) %>-<%= boleto['nosso_numero_dv'] %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="12" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13"> 
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" COLSPAN="""3"" height"=13>Uso
+                        do Banco
+                    </td>
+                    <td class="ct" valign="top" height="13" width="7"> 
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="133" height="13">Carteira</td>
+                    <td class="ct" valign="top" height="13" width="7">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="63" height="13">Espécie Moeda</td>
+                    <td class="ct" valign="top" height="13" width="7">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="33" height="13">Qtde moeda</td>
+                    <td class="ct" valign="top" height="13" width="7">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="82" height="13">
+                        xValor
+                    </td>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="180" height="13">(=)
+                        Valor documento
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" height="12">
+                        <div align="left">
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="133">
+                        <div align="left">
+                            <span class="campo">
+                                <%= boleto['carteira'] %>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="63">
+                        <div align="left">
+                            <span class="campo">
+                                R$
+                            </span>
+                        </div>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="53">
+                        <span class="campo">
+                            <%= boleto['quantidade'] || '' %>   
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top"  width="82">
+                        <span class="campo">
+                            <%= boleto['valor_unitario'] ? formatAmount(boleto['valor_unitario']) : '' %>
+                        </span>
+                    </td>
+                    <td class="cp" valign="top" width="7" height="12"> 
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" align="right" width="180" height="12">
+                        <span class="campo">
+                            <%= formatAmount(boleto['valor']) %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="14" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tbody>
+                <tr>
+                    <td align="right" width="10">
+                        <table cellspacing="0" cellpadding="0" border="0" align="left">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" width="7" height="1">
+                                        <div class="BL h1 w1"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td valign="top" width="468" rowspan="5"><font class="ct">Instruções
+                        (Texto de responsabilidade do Beneficiário)</font><br><br><span class="cp"> <FONT class=campo>
+                            <%- boleto['descricao'] || '' %><br>
+                            <%- boleto['descricao2'] || '' %><br>
+                            <%- boleto['descricao3'] || '' %></FONT><br><br>
+                        </span>
+                    </td>
+                    <td align="right" width="188">
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                    <td class="ct" valign="top" width="180" height="13">(-)
+                                        Desconto / Abatimentos
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                    <td class="cp" valign="top" align="right" width="180" height="12"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" width="187">
+                                        <div class="BB w187"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="10">
+                        <table cellspacing="0" cellpadding="0" border="0" align="left">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" width="7" height="1">
+                                        <div class="BL h1 w1"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="right" width="188">
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                    <td class="ct" valign="top" width="180" height="13">
+                                        (-)
+                                        Outras deduções
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12"> 
+                                        <div class="BL h12"></div>
+                                    </td>
+                                    <td class="cp" valign="top" align="right" width="180" height="12"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" width="187">
+                                        <div class="BB w187"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="10">
+                        <table cellspacing="0" cellpadding="0" border="0" align="left">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        
+                                        <div class="BL h13"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" width="7" height="1">
+                                        <div class="BL h1 w1"></div>    
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="right" width="188">
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                    <td class="ct" valign="top" width="180" height="13">
+                                        (+) Mora / Multa
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                    <td class="cp" valign="top" align="right" width="180" height="12"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" width="187">
+                                        <div class="BB w187"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="10">
+                        <table cellspacing="0" cellpadding="0" border="0" align="left">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" width="7" height="1">
+                                        <div class="BL h1 w1"></div>    
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="right" width="188">
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                    <td class="ct" valign="top" width="180" height="13">
+                                        (+) Outros acréscimos
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                    <td class="cp" valign="top" align="right" width="180" height="12"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" width="187">
+                                        <div class="BB w187"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="10">
+                        <table cellspacing="0" cellpadding="0" border="0" align="left">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="right" width=188>
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td class="ct" valign="top" width="7" height="13">
+                                        <div class="BL h13"></div>
+                                    </td>
+                                    <td class="ct" valign="top" width="180" height="13">(=)
+                                        Valor cobrado
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cp" valign="top" width="7" height="12">
+                                        <div class="BL h12"></div>
+                                    </td>
+                                    <td class="cp" valign="top" align="right" width="180" height="12"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" width="666" border="0">
+            <tbody>
+                <tr>
+                    <td valign="top" width="666" height="1">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="ct" valign="top" width="7" height="13">
+                        <div class="BL h13"></div>
+                    </td>
+                    <td class="ct" valign="top" width="490" height="13">Pagador: </td>
+                    <td class="ct" valign="top" width="43" height="13">CPF/CNPJ: </td>
+                    <td class="ct" valign="top" width="127" height="13">
+                        <strong><%= boleto['pagador_documento'] %></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp" valign="top" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="cp" valign="top" width="490" height="12">
+                        <span class="campo"><%= boleto['pagador'] %></span>
+                    </td>
+                    <td class="ct" valign="top" width="43" height="12">
+                        <span class="campo">
+                            UF: <strong><%= boleto['pagador_uf'] %></strong>
+                        </span>
+                    </td>
+                    <td class="ct" valign="top"  width="127" height="12">
+                        <span class="campo">
+                            CEP: <strong><%= boleto['pagador_cep'] %></strong>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellSpacing="0" cellPadding="0" border="0" width="666">
+            <tbody>
+                <tr>
+                    <td class="ct" width="7" height="12">
+                        <div class="BL h12"></div>
+                    </td>
+                    <td class="ct" width="490">Sacador/Avalista</td>
+                    <td class="ct" width="43">CPF/CNPJ</td>
+                    <td class="ct" width="127">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" width="666">
+                        <div class="BB w666"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="w666">
+            <tr>
+                <td class="EcdBar Al pL10" width="450">
+                <% if (barcode_render_engine == 'bmp') { %>
+                    <div class="barcode"/>
+                <% } else if (barcode_render_engine == 'img') { %>
+                    <div class="barcode">
+                    <% var black = true; %>
+    
+                    <% for(var i = 0; i < barcode_data.length; i++) { %>
+                        <% var pixelsToDraw = (barcode_data[i] == "0") ? 1 : 3; %>
+                        <img class="barcode-line" src="https://assets.pagar.me/boleto/images/<%= black ? 'b' : 'w' %>.png" height="<%= barcode_height %>px" width="<%= pixelsToDraw %>px;" border=0/>
+                        <% black = !black; %>
+                    <% } %>
+                    </div>
+                <% } %>
+                </td>
+                <td width="2" heigth="52">
+                    <div class="BL" style="height: 52px;"></div>
+                </td>
+                <td width="214" valign="top">
+                        <div style="font: 9px Arial;">
+                            Autenticação mecânica - <b>Ficha de Compensação</b>
+                        </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
