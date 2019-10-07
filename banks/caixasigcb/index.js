@@ -1,6 +1,5 @@
 const moment = require('moment')
 const formatters = require('../../lib/formatters')
-// const ediHelper = require('../../lib/edi-helper')
 const helper = require('./helper')
 
 exports.options = {
@@ -10,12 +9,12 @@ exports.options = {
 }
 
 exports.dvBarra = function (barra) {
-  var resto2 = formatters.mod11(barra)
+  const resto2 = formatters.mod11(barra)
   return (resto2 === 0 || resto2 > 9) ? 1 : 11 - resto2
 }
 
 exports.dvCampoLivre = function (barra) {
-  var resto2 = formatters.mod11(barra)
+  const resto2 = formatters.mod11(barra)
   return (resto2 > 9) ? 0 : 11 - resto2
 }
 
@@ -59,12 +58,11 @@ exports.linhaDigitavel = function (barcodeData) {
   // 34-34    -> DV geral do código de barras (posição 5 do código de barras);
   // 34-37    -> Fator de vencimento (posições 6 a 9 do código de barras)
   // 38-47    -> Nosso número do titulo (campo livre)
-
-  var campos = []
+  const campos = []
 
   // 1. Campo - composto pelo código do banco, código da moéda, código da carteira e código da agencia
   // e DV (modulo10) deste campo
-  var campo = barcodeData.substring(0, 3) +
+  let campo = barcodeData.substring(0, 3) +
     barcodeData.substring(3, 4) +
     barcodeData.substring(19, 24)
   campo = campo + formatters.mod10(campo)
@@ -100,19 +98,19 @@ exports.linhaDigitavel = function (barcodeData) {
 
 exports.parseEDIFile = function (fileContent) {
   try {
-    var lines = fileContent.split('\n')
-    var parsedFile = {
+    const lines = fileContent.split('\n')
+    const parsedFile = {
       boletos: []
     }
 
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i]
-      var registro = line.substring(0, 1)
+    for (const i = 0; i < lines.length; i++) {
+      const line = lines[i]
+      const registro = line.substring(0, 1)
 
       if (registro === '0') {
-        // TODO
+        // TODO Implementar leitura de retorno para registro 0
       } else if (registro === '1') {
-        // TODO
+        // TODO Implementar leitura de retorno para registro 1
       }
     }
 
