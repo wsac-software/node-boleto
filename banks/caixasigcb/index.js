@@ -9,17 +9,17 @@ exports.options = {
 }
 
 exports.dvBarra = function (barra) {
-  const resto2 = formatters.mod11(barra)
-  return (resto2 === 0 || resto2 > 9) ? 1 : 11 - resto2
+  const dv = formatters.mod11(barra)
+  return dv === 0 ? 1 : dv
 }
 
 exports.dvCampoLivre = function (barra) {
-  const resto2 = formatters.mod11(barra)
-  return (resto2 > 9) ? 0 : 11 - resto2
+  return formatters.mod11(barra)
 }
 
 exports.barcodeData = function (boleto) {
-  boleto['nosso_numero'] = `14${formatters.addTrailingZeros(boleto['nosso_numero'], 15)}`;
+  boleto['nosso_numero'] = `14${formatters.addTrailingZeros(boleto['nosso_numero'], 15)}`
+  boleto['nosso_numero_dv'] = formatters.mod11(boleto['nosso_numero'].toString())
 
   const codigoBanco = this.options.codigo
   const numMoeda = '9'
@@ -33,12 +33,13 @@ exports.barcodeData = function (boleto) {
   }
 
   const codigoCedente = formatters.addTrailingZeros(codigoCedenteWithDv, 7)
-  campoLivre = `${boleto['nosso_numero'].substr(2, 3)}${boleto['nosso_numero'].substr(0, 1)}`;
-  campoLivre += `${boleto['nosso_numero'].substr(5, 2)}${boleto['nosso_numero'].substr(1, 1)}`;
-  campoLivre += `${boleto['nosso_numero'].substr(8, 8)}`;
-  campoLivre += this.dvCampoLivre(campoLivre);
+  campoLivre = codigoCedente
+  campoLivre += `${boleto['nosso_numero'].substr(2, 3)}${boleto['nosso_numero'].substr(0, 1)}`
+  campoLivre += `${boleto['nosso_numero'].substr(5, 3)}${boleto['nosso_numero'].substr(1, 1)}`
+  campoLivre += `${boleto['nosso_numero'].substr(8, 9)}`
+  campoLivre += this.dvCampoLivre(campoLivre)
 
-  const barra = codigoBanco + numMoeda + fatorVencimento + valor + codigoCedente + campoLivre
+  const barra = codigoBanco + numMoeda + fatorVencimento + valor + campoLivre
 
   const dvBarra = this.dvBarra(barra)
   const lineData = barra.substring(0, 4) + dvBarra + barra.substring(4, barra.length)
