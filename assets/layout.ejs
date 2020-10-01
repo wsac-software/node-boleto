@@ -297,7 +297,7 @@
 			<td><%= formatDate(boleto['data_emissao']) %></td>
 			<td><%= addTrailingZeros(boleto['numero_documento'], 9) %></td>
             <td>DM</td>
-            <td>N</td>
+            <td><%= boleto['aceite'] %></td>
 			<td><%= formatDate(boleto['data_emissao']) %></td>
 			<td class="Ar"><%= addTrailingZeros(boleto['nosso_numero'], 12) %>-<%= boleto['nosso_numero_dv'] %></td>
         </tr>
